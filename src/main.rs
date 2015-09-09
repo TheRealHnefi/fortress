@@ -2,6 +2,7 @@
 extern crate glium;
 
 mod session;
+mod renderer;
 
 fn main() {
   use glium::DisplayBuild;
@@ -12,7 +13,9 @@ fn main() {
     .build_glium()
     .unwrap();
     
-  let session = session::Session {TickCounter: 0};
+  let session = session::Session {tick_counter: 0};
+  let Renderer = renderer::Renderer::new(&session);
+  
       
   let mut running = true;
   while running {

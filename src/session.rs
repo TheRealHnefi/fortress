@@ -1,9 +1,10 @@
 pub struct Session {
-  pub TickCounter : i64,
+  pub tick_counter : i64,
 }
 
 impl Session {
-  pub fn Tick(&mut self) -> () {
-    self.TickCounter += 1;
+  pub fn tick(&mut self) -> ()
+  {
+    self.tick_counter += 1;
   }
 }
