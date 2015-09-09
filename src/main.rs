@@ -13,12 +13,15 @@ fn main() {
     .build_glium()
     .unwrap();
     
-  let session = session::Session {tick_counter: 0};
-  let Renderer = renderer::Renderer::new(&session);
+  let mut session = session::Session {tick_counter: 0};
+  let renderer = renderer::Renderer::new();
   
       
   let mut running = true;
   while running {
+    session.tick();
+    renderer.render(window.draw());
+    
     for event in window.poll_events() {
       match event {
         glium::glutin::Event::Closed => running = false,
