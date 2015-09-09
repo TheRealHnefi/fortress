@@ -1,6 +1,8 @@
 #[macro_use]
 extern crate glium;
 
+mod session;
+
 fn main() {
   use glium::DisplayBuild;
     
@@ -9,6 +11,8 @@ fn main() {
     .with_title(format!("Fortress"))
     .build_glium()
     .unwrap();
+    
+  let session = session::Session {TickCounter: 0};
       
   let mut running = true;
   while running {
