@@ -14,7 +14,7 @@ fn main() {
     .unwrap();
     
   let mut session = session::Session {tick_counter: 0};
-  let renderer = renderer::Renderer::new();
+  let renderer = renderer::Renderer::new(&window);
   
       
   let mut running = true;
