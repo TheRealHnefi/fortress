@@ -1,3 +1,4 @@
+use framegraph;
 use glium::{self, Display, Surface};
 
 pub struct Renderer {
@@ -8,21 +9,18 @@ pub struct Renderer {
 impl Renderer {
   pub fn new(display: & Display) -> Renderer
   {
-    let vertex_src = r#"
+    let vertex_src = "
     #version 140
 
-    in vec2 position;
+    in vec3 pos;
     
-    uniform float time;
-
     void main() {
-        vec2 pos = position;
-        pos.x += time;
-        gl_Position = vec4(pos, 0.0, 1.0);
+        vec3 position = pos;
+        gl_Position = vec4(position, 1.0);
     }
-"#;
+";
 
-    let frag_src = r#"
+    let frag_src = "
     #version 140
 
     out vec4 color;
@@ -30,7 +28,7 @@ impl Renderer {
     void main() {
         color = vec4(1.0, 0.0, 0.0, 1.0);
     }
-"#;
+";
   
     Renderer {
       default_shader: glium::Program::from_source(display, vertex_src, frag_src, None).unwrap(),
@@ -38,12 +36,19 @@ impl Renderer {
     }
   }
   
-  pub fn render(&self, mut frame : glium::Frame) -> ()
+  pub fn render(&self, mut frame : glium::Frame, graph: framegraph::Framegraph) -> ()
   {
     frame.clear_color(self.clear_color[0],
       self.clear_color[1],
       self.clear_color[2],
       self.clear_color[3]);
+      
+    let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
+    frame.draw(graph.vertices.unwrap(),
+      &indices,
+      &self.default_shader,
+      &glium::uniforms::EmptyUniforms,
+      &Default::default()).unwrap();
     frame.finish().unwrap();
   }
 }

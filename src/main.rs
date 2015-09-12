@@ -3,9 +3,13 @@ extern crate glium;
 
 mod session;
 mod renderer;
+mod world;
+mod framegraph;
 
 fn main() {
   use glium::DisplayBuild;
+  use session::Session;
+  use renderer::Renderer;
     
   let window = glium::glutin::WindowBuilder::new()
     .with_dimensions(1024, 768)
@@ -13,14 +17,13 @@ fn main() {
     .build_glium()
     .unwrap();
     
-  let mut session = session::Session {tick_counter: 0};
-  let renderer = renderer::Renderer::new(&window);
+  let mut session = Session::new(&window);
+  let renderer = Renderer::new(&window);
   
       
   let mut running = true;
   while running {
-    session.tick();
-    renderer.render(window.draw());
+    renderer.render(window.draw(), session.get_framegraph());
     
     for event in window.poll_events() {
       match event {

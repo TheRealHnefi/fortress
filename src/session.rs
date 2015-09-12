@@ -1,10 +1,21 @@
+use world;
+use framegraph;
+use glium::Display;
+
 pub struct Session {
-  pub tick_counter : i64,
+  world : world::World,
 }
 
 impl Session {
-  pub fn tick(&mut self) -> ()
+  pub fn new(display: & Display) -> Session
   {
-    self.tick_counter += 1;
+    Session {
+      world: world::World::new(display, 0, 0, 0)
+    }
+  }
+  
+  pub fn get_framegraph(&self) -> framegraph::Framegraph
+  {
+    self.world.get_framegraph()
   }
 }
