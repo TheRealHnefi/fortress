@@ -13,10 +13,11 @@ impl Renderer {
     #version 140
 
     in vec3 pos;
+    uniform mat4 matrix;
     
     void main() {
-        vec3 position = pos;
-        gl_Position = vec4(position, 1.0);
+        vec3 p = pos;
+        gl_Position = matrix * vec4(p, 1.0);
     }
 ";
 
@@ -43,11 +44,29 @@ impl Renderer {
       self.clear_color[2],
       self.clear_color[3]);
       
+    self.do_render(&mut frame, graph);
+    
+    frame.finish().unwrap();
+  }
+  
+  fn do_render(&self,
+               mut frame: &mut glium::Frame,
+               graph: framegraph::Framegraph) -> ()
+  {
+    
+  
+    let uniforms = uniform! {
+      matrix: graph.transform
+    };
+  
     frame.draw(graph.vertices.unwrap(),
       graph.indices.unwrap(),
       &self.default_shader,
-      &glium::uniforms::EmptyUniforms,
+      &uniforms,
       &Default::default()).unwrap();
-    frame.finish().unwrap();
+      
+    for child in graph.children {
+      self.do_render(&mut frame, child);
+    }
   }
 }

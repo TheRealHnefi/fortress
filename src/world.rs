@@ -14,7 +14,30 @@ impl<'a> World<'a> {
   
   pub fn get_framegraph(&self) -> Framegraph
   {
+    let mtx1 = [
+        [1.0, 0.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, 0.0],
+        [0.0 , 0.0, 0.0, 1.0f32],
+      ];
+      
+    let mtx2 = [
+        [1.0, 0.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, 0.0],
+        [0.5 , 0.5, 0.0, 1.0f32],
+      ];
+  
+    let child = Framegraph {
+      children: vec![],
+      transform: mtx1,
+      vertices: Some(&self.placeholder.vertices),
+      indices: Some(&self.placeholder.indices),
+    };
+    
     Framegraph {
+      children: vec![child],
+      transform: mtx2,
       vertices: Some(&self.placeholder.vertices),
       indices: Some(&self.placeholder.indices),
     }
