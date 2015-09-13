@@ -3,6 +3,6 @@ use vertexobject;
 
 
 pub struct Framegraph<'a> {
-  pub placeholder: i32,
   pub vertices: Option<&'a glium::VertexBuffer<vertexobject::Vertex>>,
+  pub indices: Option<&'a glium::index::NoIndices>,
 }

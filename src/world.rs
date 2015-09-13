@@ -15,8 +15,8 @@ impl<'a> World<'a> {
   pub fn get_framegraph(&self) -> Framegraph
   {
     Framegraph {
-      placeholder: 0,
       vertices: Some(&self.placeholder.vertices),
+      indices: Some(&self.placeholder.indices),
     }
   }
 }
