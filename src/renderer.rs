@@ -43,7 +43,7 @@ impl Renderer {
       self.clear_color[2],
       self.clear_color[3]);
       
-    let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
+    let indices = glium::index::NoIndices(glium::index::PrimitiveType::TriangleFan);
     frame.draw(graph.vertices.unwrap(),
       &indices,
       &self.default_shader,

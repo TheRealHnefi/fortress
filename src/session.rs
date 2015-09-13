@@ -1,16 +1,16 @@
-use world::*;
-use framegraph::*;
-use glium::Display;
+use world::World;
+use framegraph::Framegraph;
+use resources::Resources;
 
-pub struct Session {
-  world: World,
+pub struct Session<'a> {
+  world: World<'a>,
 }
 
-impl Session {
-  pub fn new(display: & Display) -> Session
+impl<'a> Session<'a> {
+  pub fn new(resources: &'a Resources) -> Session<'a>
   {
     Session {
-      world: World::new(display)
+      world: World::new(resources)
     }
   }
   

@@ -21,7 +21,7 @@ fn main() {
     .unwrap();
     
   let resources = Resources::new(&window);
-  let session = Session::new(&window);
+  let session = Session::new(&resources);
   let renderer = Renderer::new(&window);
 
   let mut running = true;

@@ -1,27 +1,22 @@
-use vertexobject;
-use framegraph;
-use glium;
+use vertexobject::VertexObject;
+use framegraph::Framegraph;
+use resources::Resources;
 
-pub struct World {
-  placeholder: glium::VertexBuffer<vertexobject::Vertex>,
+pub struct World<'a> {
+  placeholder: &'a VertexObject,
 }
 
-impl World {
-  pub fn new(display: & glium::Display) -> World
+impl<'a> World<'a> {
+  pub fn new(resources: &'a Resources) -> World<'a>
   {
-    let v1 = vertexobject::Vertex { pos: [-0.5, -0.5, 0.0] };
-    let v2 = vertexobject::Vertex { pos: [0.0, 0.5, 0.0] };
-    let v3 = vertexobject::Vertex { pos: [0.5, -0.25, 0.0] };
-    let shape = vec![v1, v2, v3];
-    let vb = glium::VertexBuffer::new(display, &shape).unwrap();
-    World {placeholder: vb}
+    World {placeholder: &resources.simple_box}
   }
   
-  pub fn get_framegraph(&self) -> framegraph::Framegraph
+  pub fn get_framegraph(&self) -> Framegraph
   {
-    framegraph::Framegraph {
+    Framegraph {
       placeholder: 0,
-      vertices: Some(&self.placeholder),
+      vertices: Some(&self.placeholder.vertices),
     }
   }
 }
