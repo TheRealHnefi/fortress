@@ -30,16 +30,14 @@ impl<'a> World<'a> {
   
     let child = Framegraph {
       children: vec![],
-      transform: mtx1,
-      vertices: Some(&self.placeholder.vertices),
-      indices: Some(&self.placeholder.indices),
+      transform: mtx2,
+      vertices: Some(&self.placeholder),
     };
     
     Framegraph {
       children: vec![child],
-      transform: mtx2,
-      vertices: Some(&self.placeholder.vertices),
-      indices: Some(&self.placeholder.indices),
+      transform: mtx1,
+      vertices: Some(&self.placeholder),
     }
   }
 }

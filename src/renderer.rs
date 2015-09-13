@@ -58,12 +58,17 @@ impl Renderer {
     let uniforms = uniform! {
       matrix: graph.transform
     };
+    
+    match graph.vertices {
+      Some(v) =>
+        frame.draw(&v.vertices,
+          &v.indices,
+          &self.default_shader,
+          &uniforms,
+          &Default::default()).unwrap(),
+      None => ()
+    };
   
-    frame.draw(graph.vertices.unwrap(),
-      graph.indices.unwrap(),
-      &self.default_shader,
-      &uniforms,
-      &Default::default()).unwrap();
       
     for child in graph.children {
       self.do_render(&mut frame, child);
