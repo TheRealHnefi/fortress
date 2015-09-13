@@ -5,11 +5,14 @@ mod session;
 mod renderer;
 mod world;
 mod framegraph;
+mod vertexobject;
+mod resources;
 
 fn main() {
   use glium::DisplayBuild;
   use session::Session;
   use renderer::Renderer;
+  use resources::Resources;
     
   let window = glium::glutin::WindowBuilder::new()
     .with_dimensions(1024, 768)
@@ -17,10 +20,10 @@ fn main() {
     .build_glium()
     .unwrap();
     
-  let mut session = Session::new(&window);
+  let resources = Resources::new(&window);
+  let session = Session::new(&window);
   let renderer = Renderer::new(&window);
-  
-      
+
   let mut running = true;
   while running {
     renderer.render(window.draw(), session.get_framegraph());

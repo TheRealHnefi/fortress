@@ -2,8 +2,8 @@ use framegraph;
 use glium::{self, Display, Surface};
 
 pub struct Renderer {
-  default_shader : glium::Program,
-  clear_color : [f32; 4],
+  default_shader: glium::Program,
+  clear_color: [f32; 4],
 }
 
 impl Renderer {
@@ -36,7 +36,7 @@ impl Renderer {
     }
   }
   
-  pub fn render(&self, mut frame : glium::Frame, graph: framegraph::Framegraph) -> ()
+  pub fn render(&self, mut frame: glium::Frame, graph: framegraph::Framegraph) -> ()
   {
     frame.clear_color(self.clear_color[0],
       self.clear_color[1],
