@@ -1,6 +1,5 @@
 use vertexobject::*;
 
-
 pub struct Framegraph<'a> {
   pub children: Vec<Framegraph<'a>>,
 

@@ -53,8 +53,6 @@ impl Renderer {
                mut frame: &mut glium::Frame,
                graph: framegraph::Framegraph) -> ()
   {
-    
-  
     let uniforms = uniform! {
       matrix: graph.transform
     };
@@ -69,7 +67,6 @@ impl Renderer {
       None => ()
     };
   
-      
     for child in graph.children {
       self.do_render(&mut frame, child);
     }
