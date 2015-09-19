@@ -8,6 +8,7 @@ mod framegraph;
 mod vertexobject;
 mod resources;
 mod block;
+mod volume;
 
 fn main() {
   use glium::DisplayBuild;
