@@ -20,6 +20,7 @@ fn main() {
   let window = glium::glutin::WindowBuilder::new()
     .with_dimensions(1024, 768)
     .with_title(format!("Fortress"))
+    .with_depth_buffer(24)
     .build_glium()
     .unwrap();
     

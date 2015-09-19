@@ -29,7 +29,7 @@ impl Renderer {
     out vec4 color;
 
     void main() {
-        color = vec4(1.0, 0.0, 0.0, 1.0);
+        color = vec4(1.0, 0.0, 0.0, 0.0);
     }
 ";
   
@@ -42,10 +42,11 @@ impl Renderer {
   
   pub fn render(&self, mut frame: glium::Frame, graph: framegraph::Framegraph) -> ()
   {
-    frame.clear_color(self.clear_color[0],
-      self.clear_color[1],
-      self.clear_color[2],
-      self.clear_color[3]);
+    frame.clear_color_and_depth((self.clear_color[0],
+                                 self.clear_color[1],
+                                 self.clear_color[2],
+                                 self.clear_color[3]),
+                                1.0);
       
     self.do_render(&mut frame, graph);
     
@@ -59,6 +60,16 @@ impl Renderer {
     let uniforms = uniform! {
       matrix: self.perspective * graph.transform
     };
+
+    let params = glium::DrawParameters {
+      depth: glium::Depth {
+        test: glium::draw_parameters::DepthTest::IfLess,
+        write: true,
+        .. Default::default()
+      },
+      blend: glium::Blend::alpha_blending(),
+      .. Default::default()
+    };
     
     match graph.vertices {
       Some(v) =>
@@ -66,7 +77,7 @@ impl Renderer {
           &v.indices,
           &self.default_shader,
           &uniforms,
-          &Default::default()).unwrap(),
+          &params).unwrap(),
       None => ()
     };
   
