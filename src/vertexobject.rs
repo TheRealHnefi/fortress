@@ -17,7 +17,7 @@ impl VertexObject {
   {
     VertexObject {
       vertices: glium::VertexBuffer::new(display, &shape).unwrap(),
-      indices: glium::index::NoIndices(glium::index::PrimitiveType::TriangleFan)
+      indices: glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList)
     }
   }
 }

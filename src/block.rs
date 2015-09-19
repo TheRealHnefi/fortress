@@ -16,7 +16,7 @@ impl<'a> Block<'a> {
 
   pub fn get_framegraph(&self) -> Framegraph
   {
-    let placeholder_pos = Vector3::<f32>::new(0.0, 0.0, -0.1);
+    let placeholder_pos = Vector3::<f32>::new(0.0, 0.0, -0.6);
     
     Framegraph {
       children: vec![],

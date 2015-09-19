@@ -36,7 +36,7 @@ impl Renderer {
     Renderer {
       default_shader: glium::Program::from_source(display, vertex_src, frag_src, None).unwrap(),
       clear_color: [0.0, 0.0, 0.0, 1.0],
-      perspective: cgmath::frustum::<f32>(-1.0, 1.0, -1.0, 1.0, 0.01, 10.0)
+      perspective: cgmath::frustum::<f32>(-0.5, 0.5, -0.5, 0.5, 0.01, 10.0)
     }
   }
   
