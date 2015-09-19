@@ -1,11 +1,9 @@
-use vertexobject::VertexObject;
 use framegraph::Framegraph;
 use resources::Resources;
 use block::Block;
 use volume::Volume;
 
 pub struct World<'a> {
-  placeholder: &'a VertexObject,
   terrain: Volume<Block<'a>>,
 }
 

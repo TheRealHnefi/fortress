@@ -6,6 +6,7 @@ pub struct Volume<T> {
   size_z: usize
 }
 
+#[allow(dead_code)]
 impl<T: Clone> Volume<T> {
   pub fn new(value: T, x: usize, y: usize, z: usize) -> Volume<T> {
     let mut vector = Vec::with_capacity(x * y * z);
