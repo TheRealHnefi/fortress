@@ -1,6 +1,7 @@
 use vertexobject::VertexObject;
 use resources::Resources;
 use framegraph::Framegraph;
+use cgmath::{Matrix4,Vector3};
 
 #[derive(Clone)]
 pub struct Block<'a> {
@@ -15,17 +16,12 @@ impl<'a> Block<'a> {
 
   pub fn get_framegraph(&self) -> Framegraph
   {
-    let unit = [
-      [1.0, 0.0, 0.0, 0.0],
-      [0.0, 1.0, 0.0, 0.0],
-      [0.0, 0.0, 1.0, 0.0],
-      [0.0 , 0.0, 0.0, 1.0f32],
-      ];
+    let placeholder_pos = Vector3::<f32>::new(0.0, 0.0, -0.1);
+    
     Framegraph {
       children: vec![],
-      transform: unit,
+      transform: Matrix4::<f32>::from_translation(&placeholder_pos),
       vertices: Some(&self.shape),
     }
   }
-  
 }

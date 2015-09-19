@@ -1,9 +1,11 @@
 use framegraph;
 use glium::{self, Display, Surface};
+use cgmath;
 
 pub struct Renderer {
   default_shader: glium::Program,
   clear_color: [f32; 4],
+  perspective: cgmath::Matrix4<f32>,
 }
 
 impl Renderer {
@@ -33,7 +35,8 @@ impl Renderer {
   
     Renderer {
       default_shader: glium::Program::from_source(display, vertex_src, frag_src, None).unwrap(),
-      clear_color: [0.5, 0.5, 0.0, 1.0]
+      clear_color: [0.0, 0.0, 0.0, 1.0],
+      perspective: cgmath::frustum::<f32>(-1.0, 1.0, -1.0, 1.0, 0.01, 10.0)
     }
   }
   
@@ -54,7 +57,7 @@ impl Renderer {
                graph: framegraph::Framegraph) -> ()
   {
     let uniforms = uniform! {
-      matrix: graph.transform
+      matrix: self.perspective * graph.transform
     };
     
     match graph.vertices {

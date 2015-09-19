@@ -5,3 +5,4 @@ authors = ["Johan T. Larsson"]
 
 [dependencies]
 glium = "*"
+cgmath = "*"
