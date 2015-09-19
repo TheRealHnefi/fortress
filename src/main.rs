@@ -7,6 +7,7 @@ mod world;
 mod framegraph;
 mod vertexobject;
 mod resources;
+mod block;
 
 fn main() {
   use glium::DisplayBuild;
