@@ -6,17 +6,25 @@ use cgmath::{Matrix4,Vector3};
 #[derive(Clone)]
 pub struct Block<'a> {
   shape: &'a VertexObject,
+  pub x: usize,
+  pub y: usize,
+  pub z: usize,
 }
 
 impl<'a> Block<'a> {
-  pub fn new(resources: &'a Resources) -> Block<'a>
+  pub fn new(resources: &'a Resources, pos_x: usize, pos_y: usize, pos_z: usize) -> Block<'a>
   {
-    Block { shape: &resources.simple_box }
+    Block {
+      shape: &resources.simple_box,
+      x: pos_x,
+      y: pos_y,
+      z: pos_z
+    }
   }
 
   pub fn get_framegraph(&self) -> Framegraph
   {
-    let placeholder_pos = Vector3::<f32>::new(0.0, 0.0, -0.6);
+    let placeholder_pos = Vector3::<f32>::new(self.x as f32, -(self.y as f32), -(self.z as f32));
     
     Framegraph {
       children: vec![],
