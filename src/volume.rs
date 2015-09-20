@@ -1,9 +1,9 @@
 #[allow(dead_code)]
 pub struct Volume<T> {
   data: Vec<T>,
-  size_x: usize,
-  size_y: usize,
-  size_z: usize
+  pub size_x: usize,
+  pub size_y: usize,
+  pub size_z: usize
 }
 
 #[allow(dead_code)]

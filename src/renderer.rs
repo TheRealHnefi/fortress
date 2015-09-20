@@ -1,11 +1,11 @@
 use framegraph;
 use glium::{self, Display, Surface};
-use cgmath;
+use cgmath::{self, Matrix4};
 
 pub struct Renderer {
   default_shader: glium::Program,
   clear_color: [f32; 4],
-  projection: cgmath::Matrix4<f32>,
+  projection: Matrix4<f32>,
 }
 
 impl Renderer {
@@ -55,17 +55,20 @@ impl Renderer {
                                  self.clear_color[3]),
                                 1.0);
       
-    self.do_render(&mut frame, graph);
+    self.do_render(&mut frame, graph, Matrix4::identity());
     
     frame.finish().unwrap();
   }
   
   fn do_render(&self,
                mut frame: &mut glium::Frame,
-               graph: framegraph::Framegraph) -> ()
+               graph: framegraph::Framegraph,
+               base_transform: Matrix4<f32>) -> ()
   {
+    let new_transform = base_transform * graph.transform;
+      
     let uniforms = uniform! {
-      matrix: self.projection * graph.transform
+      matrix: self.projection * new_transform
     };
 
     let params = glium::DrawParameters {
@@ -89,7 +92,7 @@ impl Renderer {
     };
   
     for child in graph.children {
-      self.do_render(&mut frame, child);
+      self.do_render(&mut frame, child, new_transform);
     }
   }
 }
