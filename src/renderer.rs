@@ -5,7 +5,7 @@ use cgmath;
 pub struct Renderer {
   default_shader: glium::Program,
   clear_color: [f32; 4],
-  perspective: cgmath::Matrix4<f32>,
+  projection: cgmath::Matrix4<f32>,
 }
 
 impl Renderer {
@@ -29,14 +29,21 @@ impl Renderer {
     out vec4 color;
 
     void main() {
-        color = vec4(1.0, 0.0, 0.0, 0.0);
+        color = vec4(1.0, 0.0, 0.0, 1.0);
     }
 ";
-  
+
+    let (view_x, view_y) = match display.get_window() {
+      Some(w) => w.get_inner_size_pixels().unwrap_or((1,1)),
+      None => (1, 1)
+    };
+
+    let ratio: f32 = 0.5 * view_y as f32 / view_x as f32;
+    
     Renderer {
       default_shader: glium::Program::from_source(display, vertex_src, frag_src, None).unwrap(),
       clear_color: [0.0, 0.0, 0.0, 1.0],
-      perspective: cgmath::frustum::<f32>(-0.5, 0.5, -0.5, 0.5, 0.01, 10.0)
+      projection: cgmath::frustum::<f32>(-0.5, 0.5, -ratio, ratio, 0.01, 10.0)
     }
   }
   
@@ -58,7 +65,7 @@ impl Renderer {
                graph: framegraph::Framegraph) -> ()
   {
     let uniforms = uniform! {
-      matrix: self.perspective * graph.transform
+      matrix: self.projection * graph.transform
     };
 
     let params = glium::DrawParameters {
