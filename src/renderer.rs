@@ -39,11 +39,11 @@ impl Renderer {
     };
 
     let ratio: f32 = 0.5 * view_y as f32 / view_x as f32;
-    
+
     Renderer {
       default_shader: glium::Program::from_source(display, vertex_src, frag_src, None).unwrap(),
       clear_color: [0.0, 0.0, 0.0, 1.0],
-      projection: cgmath::frustum::<f32>(-0.5, 0.5, -ratio, ratio, 0.01, 10.0)
+      projection: cgmath::frustum::<f32>(-0.5, 0.5, -ratio, ratio, 0.5, 100.0)
     }
   }
   
