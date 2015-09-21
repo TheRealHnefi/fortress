@@ -6,3 +6,4 @@ authors = ["Johan T. Larsson"]
 [dependencies]
 glium = "*"
 cgmath = "*"
+clock_ticks = "*"
