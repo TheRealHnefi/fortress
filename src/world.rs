@@ -3,14 +3,40 @@ use resources::Resources;
 use block::Block;
 use volume::Volume;
 use cgmath::Matrix4;
+use std::thread;
+use std::sync::mpsc;
 
 pub struct World<'a> {
   terrain: Volume<Block<'a>>,
   ticks: u32,
   tick_time: u64,
+  main_thread: thread::JoinHandle<()>,
+  done_sender: mpsc::Sender<bool>,
+}
+
+impl<'a> Drop for World<'a> {
+  fn drop(&mut self) {
+    match self.done_sender.send(true) {
+      Ok(_) => (),
+      Err(_) => println!("Error closing main thread from World::drop"),
+    }
+  }
 }
 
 impl<'a> World<'a> {
+  fn run(rx: mpsc::Receiver<bool>) -> ()
+  {
+    println!("Starting thread");
+    let mut done = false;
+    while !done {
+      match rx.try_recv() {
+        Ok(v) => done = v,
+        Err(_) => ()
+      }
+    };
+    println!("Stopping thread");
+  }
+  
   pub fn new(resources: &'a Resources) -> World<'a>
   {
     let template_block = Block::new(resources, 0, 0, 0);
@@ -25,16 +51,24 @@ impl<'a> World<'a> {
         }
       }
     }
+
+    let (tx, rx) = mpsc::channel();
     
+    let thread = thread::spawn(move || {World::run(rx)});
+
     World {
       terrain: proto_terrain,
       ticks: 0,
-      tick_time: 0
+      tick_time: 0,
+      main_thread: thread,
+      done_sender: tx
     }
   }
 
   pub fn tick(&mut self, ms: u64) -> ()
   {
+    self.main_thread.thread().unpark();
+      
     self.ticks += 1;
     self.tick_time += ms;
     if self.tick_time >= 1000 {
