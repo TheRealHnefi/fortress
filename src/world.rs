@@ -6,6 +6,8 @@ use cgmath::Matrix4;
 
 pub struct World<'a> {
   terrain: Volume<Block<'a>>,
+  ticks: u32,
+  tick_time: u64,
 }
 
 impl<'a> World<'a> {
@@ -25,12 +27,22 @@ impl<'a> World<'a> {
     }
     
     World {
-      terrain: proto_terrain
+      terrain: proto_terrain,
+      ticks: 0,
+      tick_time: 0
     }
   }
 
   pub fn tick(&mut self, ms: u64) -> ()
   {
+    self.ticks += 1;
+    self.tick_time += ms;
+    if self.tick_time >= 1000 {
+      println!("Tick rate = {}/s", self.ticks);
+      self.ticks = 0;
+      self.tick_time = 0;
+    }
+    
     // This is enormously temporary
     for x in 0..self.terrain.size_x {
       for y in 0..self.terrain.size_y {
