@@ -28,6 +28,21 @@ impl<'a> World<'a> {
       terrain: proto_terrain
     }
   }
+
+  pub fn tick(&mut self, ms: u64) -> ()
+  {
+    // This is enormously temporary
+    for x in 0..self.terrain.size_x {
+      for y in 0..self.terrain.size_y {
+        for z in 0..self.terrain.size_z {
+          self.terrain.at_mut(x, y, z).placeholder += 1;
+          if self.terrain.at(x, y, z).placeholder > 1000 {
+            self.terrain.at_mut(x, y, z).placeholder = 0;
+          }
+        }
+      }
+    }
+  }
   
   pub fn get_framegraph(&self,
                         min_x: usize,

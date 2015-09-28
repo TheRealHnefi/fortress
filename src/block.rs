@@ -9,6 +9,7 @@ pub struct Block<'a> {
   pub x: usize,
   pub y: usize,
   pub z: usize,
+  pub placeholder: u64,
 }
 
 impl<'a> Block<'a> {
@@ -18,7 +19,8 @@ impl<'a> Block<'a> {
       shape: &resources.simple_box,
       x: pos_x,
       y: pos_y,
-      z: pos_z
+      z: pos_z,
+      placeholder: 0,
     }
   }
 
@@ -29,7 +31,7 @@ impl<'a> Block<'a> {
     Framegraph {
       children: vec![],
       transform: Matrix4::<f32>::from_translation(&placeholder_pos),
-      vertices: Some(&self.shape),
+      vertices: if self.placeholder < 500 {Some(&self.shape)} else {None},
     }
   }
 }

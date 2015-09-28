@@ -27,22 +27,16 @@ fn main() {
     .unwrap();
 
   let mut time = clock_ticks::precise_time_ms();
-  let mut ticks = 0 as i32;
     
   let resources = Resources::new(&window);
-  let session = Session::new(&resources);
+  let mut session = Session::new(&resources);
   let renderer = Renderer::new(&window);
 
   let mut running = true;
   while running {
-    ticks += 1;
+
     let new_time = clock_ticks::precise_time_ms();
-    if new_time - time > 1000 {
-      time = new_time;
-      println!("Tickrate: {}", ticks);
-      ticks = 0;
-    }
-    
+    session.tick(new_time - time);
     renderer.render(window.draw(), session.get_framegraph());
     
     for event in window.poll_events() {
@@ -51,5 +45,7 @@ fn main() {
         _ => ()
       }
     }
+    
+    time = new_time;
   }
 }
